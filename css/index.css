@@ -80,9 +80,24 @@ body {
 }
 .select-style:hover {
     border-color: var(--light-text);
+    background-color: var(--primary-color);
 }
 .select-style button{
     float: right;
+}
+.select-style-a {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #1e40af;
+}
+.select-style-a:hover{
+    background-color: #1e40af;
+    color: white;
 }
 /* Основной контент */
 .container {
