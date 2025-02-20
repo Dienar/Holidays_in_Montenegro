@@ -1,78 +1,54 @@
-const translations = {
-    ru: {
-        description1: "Роскошный седан бизнес-класса, идеальный для аренды на деловые поездки и мероприятия.",
-        description2: "Элегантный и мощный автомобиль для аренды на деловые поездки и отдыха для всех.",
-        description3: "Идеальный выбор для тех, кто ценит комфорт и безопасность в аренде вместе с audio.",
-        description4: "Для любителей скорости и элегантности — аренда спортивного автомобиля для особых случаев.",
-        description5: "Инновационный электромобиль с нулевым выбросом, идеален для аренды в долгосрочной перспективе.",
-        description6: "Идеальный выбор для аренды на корпоративные поездки с максимальным комфортом.",
-        description7: "Премиум-седан для тех, кто ценит комфорт, стиль и безопасность в аренде с шикарным салоном.",
-        description8: "Для любителей скорости — аренда спортивного Ferrari для незабываемых впечатлений.",
-        description9: "Роскошный автомобиль для аренды на важные события и корпоративы происходящие на работе.",
-        description10: "Премиум-седан для аренды с элегантным дизайном и мощным двигателем.",
-        description_hour: "/ Час",
-        contacts: "Contact",
-        rights: "Все права защищены"
-    },
-    en: {
-        description1: "Luxury business class sedan, perfect for rent for business trips and events.",
-        description2: "Elegant and powerful car for rent for business trips and leisure.",
-        description3: "Perfect choice for those who value comfort and safety in a rental.",
-        description4: "For speed and elegance lovers — rent a sports car for special occasions.",
-        description5: "Innovative electric car with zero emissions, ideal for long-term rental.",
-        description6: "Perfect choice for corporate trips with maximum comfort.",
-        description7: "Premium sedan for those who value comfort, style, and safety in a rental.",
-        description8: "For speed lovers — rent a Ferrari sports car for unforgettable experiences.",
-        description9: "Luxurious car for rent for important events and corporate meetings.",
-        description10: "Premium sedan for rent with elegant design and powerful engine.",
-        description_hour: "/ Hour",
-        contacts: "Contacts",
-        rights: "All rights reserved"
+document.addEventListener("DOMContentLoaded", function () {
+    const currencySelect = document.getElementById("currency");
+    const priceElements = document.querySelectorAll(".car-price");
+  
+    let exchangeRates = {
+      RUB: 1,
+      USD: 90,  // Временные значения (заменятся на актуальные)
+      EUR: 90
+    };
+  
+    // Функция загрузки курсов валют с API Центробанка
+    async function fetchExchangeRates() {
+      try {
+        const response = await fetch("https://www.cbr-xml-daily.ru/daily_json.js");
+        const data = await response.json();
+        exchangeRates.USD = data.Valute.USD.Value;
+        exchangeRates.EUR = data.Valute.EUR.Value;
+        updatePrices(); // Обновить цены после загрузки курсов
+      } catch (error) {
+        console.error("Ошибка загрузки курсов валют:", error);
+      }
     }
-};
-
-        // Обработчики изменений
-        document.getElementById('currency').addEventListener('change', updatePrices);
-        document.getElementById('language').addEventListener('change', updateContent);
-
-        function updatePrices() {
-            const currency = document.getElementById('currency').value;
-            const prices = document.querySelectorAll('.car-price');
-            
-            prices.forEach(priceEl => {
-                const rub = priceEl.dataset.priceRub;
-                const usd = priceEl.dataset.priceUsd;
-                const eur = priceEl.dataset.priceEur;
-                
-                let value = rub;
-                switch(currency) {
-                    case 'USD': value = usd; break;
-                    case 'EUR': value = eur; break;
-                }
-                
-                priceEl.innerHTML = `${currencySymbols[currency]} ${Number(value).toLocaleString()}`;
-            });
+  
+    // Функция обновления цен
+    function updatePrices() {
+      const selectedCurrency = currencySelect.value;
+  
+      priceElements.forEach(priceElement => {
+        const rubPrice = parseFloat(priceElement.getAttribute("data-price-rub")) || 0;
+  
+        let newPrice = rubPrice;
+        let currencySymbol = "₽";
+  
+        if (selectedCurrency === "USD" && exchangeRates.USD) {
+          newPrice = (rubPrice / exchangeRates.USD).toFixed(0);
+          currencySymbol = "$";
+        } else if (selectedCurrency === "EUR" && exchangeRates.EUR) {
+          newPrice = (rubPrice / exchangeRates.EUR).toFixed(0);
+          currencySymbol = "€";
         }
-
-        function updateContent() {
-            const lang = document.getElementById('language').value;
-            document.documentElement.lang = lang;
-            
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.dataset.translate;
-                el.textContent = translations[lang][key];
-            });
-        }
-
-        const currencySymbols = {
-            RUB: '₽',
-            USD: '$',
-            EUR: '€'
-        };
-
-        // Инициализация
-        updateContent();
-        updatePrices();
+  
+        priceElement.textContent = `${ currencySymbol } ${ newPrice }`;
+      });
+    }
+  
+    // При изменении валюты пересчитываем цены
+    currencySelect.addEventListener("change", updatePrices);
+  
+    // Загружаем курсы валют при старте
+    fetchExchangeRates();
+  });
 
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');

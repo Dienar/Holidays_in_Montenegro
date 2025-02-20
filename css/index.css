@@ -138,8 +138,8 @@ a:after {
 	transition: width 0.5s ease-out; /*задаём время анимации*/
 }
 
-a:hover:after,
-a:focus:after {
+.navbar a:hover:after,
+.navbar a:focus:after {
 	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
 }
 .visit__user_text {
