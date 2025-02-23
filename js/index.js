@@ -11,22 +11,45 @@ document.querySelectorAll('nav ul li a').forEach(anchor => {
       });
     });
   });
-  // Переключение темного/светлого режима
-  document.getElementById('theme-toggle').addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
-    document.querySelector('header').classList.toggle('dark-mode');
-    document.querySelector('footer').classList.toggle('dark-mode');
-    document.querySelectorAll('nav ul li a').forEach(link => {
-      link.classList.toggle('dark-mode');
-    });
-  
-    // Меняем текст на кнопке
-    if (document.body.classList.contains('dark-mode')) {
-      this.textContent = 'Switch to Light Mode';
-    } else {
-      this.textContent = 'Switch to Dark Mode';
-    }
-  });
+
+    // Open the modal
+document.getElementById("bookButton").onclick = function() {
+  document.getElementById("bookingModal").style.display = "block";
+}
+
+// Close the modal
+document.getElementsByClassName("close-btn")[0].onclick = function() {
+  document.getElementById("bookingModal").style.display = "none";
+}
+
+// Close modal if clicked outside of it
+window.onclick = function(event) {
+  if (event.target == document.getElementById("bookingModal")) {
+    document.getElementById("bookingModal").style.display = "none";
+  }
+}
+
+// Form Submission - Example validation and logging
+document.getElementById("bookingForm").onsubmit = function(e) {
+  e.preventDefault();
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let tourDate = document.getElementById("tourDate").value;
+  let numPeople = document.getElementById("numPeople").value;
+
+  // Simple form validation
+  if (name && email && tourDate && numPeople) {
+    console.log("Booking Details:");
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Tour Date:", tourDate);
+    console.log("Number of People:", numPeople);
+    alert("Your tour has been successfully booked!");
+    document.getElementById("bookingModal").style.display = "none";
+  } else {
+    alert("Please fill all fields!");
+  }
+}
   let currentSlide = 0;
   const slides = document.querySelectorAll('.slide');
   const dots = document.querySelectorAll('.dot');
