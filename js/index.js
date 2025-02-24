@@ -39,12 +39,6 @@ document.getElementById("bookingForm").onsubmit = function(e) {
 
   // Simple form validation
   if (name && email && tourDate && numPeople) {
-    console.log("Booking Details:");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Tour Date:", tourDate);
-    console.log("Number of People:", numPeople);
-    alert("Your tour has been successfully booked!");
     document.getElementById("bookingModal").style.display = "none";
   } else {
     alert("Please fill all fields!");

@@ -33,18 +33,19 @@
         <div class="modal-content">
           <span class="close-btn">&times;</span>
           <h2>Book Your Tour</h2>
-          <form id="bookingForm">
+          <form method="POST" action="php/send_form.php">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Your full name" required>
       
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Your email address" required>
       
-            <label for="tourDate">Tour Date</label>
-            <input type="date" id="tourDate" name="tourDate" required>
-      
+            <label for="tourDate">Tour Date Start</label>
+            <input type="date" id="tourDate" name="date_start" required>
+            <label for="tourDate">Tour Date End</label>
+            <input type="date" id="tourDate" name="date_end" required>
             <label for="numPeople">Number of People</label>
-            <input type="number" id="numPeople" name="numPeople" min="1" max="8" required>
+            <input type="number" id="numPeople" name="count" min="1" max="8" required>
       
             <button type="submit" class="submit-btn">Confirm Booking</button>
           </form>
@@ -68,7 +69,7 @@
                 <h2>Car Rental for Every Adventure</h2>
                 <p>Choose from a range of vehicles that suit your travel needs—compact cars for the city, or 4x4s for mountain roads.</p>
               </div>
-              <img src="https://tv.mail.ru/tvpic/2/04/0626755.jpg" alt="Car Rental">
+              <img src="https://i.pinimg.com/736x/dc/fd/4d/dcfd4d6bfa3518698f6164eca6c31e92.jpg" alt="Car Rental">
             </div>
             <div class="slide">
               <div class="visit__user_text">
